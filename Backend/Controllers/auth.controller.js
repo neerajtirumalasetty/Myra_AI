@@ -4,7 +4,7 @@ import User from "../Models/user.model.js";
 export const googleAuth = async (req, res) => {
   try {
     const { name, email } = req.body;
-    if (!name || email) {
+    if (!name || !email) {
       return res.status(400).json({ message: "name & email are required" });
     }
 

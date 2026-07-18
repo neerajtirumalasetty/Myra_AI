@@ -8,8 +8,14 @@ import {
 import { RiSparkling2Line } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/logo.png";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../utils/firebase";
+import axios from "axios"
+import { ServerUrl } from "../App";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Login({setUser}) {
+  const navigate = useNavigate()
   const FEATURES = [
     {
       icon: <HiOutlineMicrophone />,
@@ -19,7 +25,7 @@ function Login() {
     {
       icon: <HiOutlineSparkles />,
       title: "Smart Navigation",
-      desc: "navigate pages using voice commands.",
+      desc: "Navigate pages using voice commands.",
     },
     {
       icon: <HiOutlineCodeBracket />,
@@ -32,6 +38,21 @@ function Login() {
       desc: "Optimized Gemini AI responses.",
     },
   ];
+
+  const handleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider)
+      const {displayName, email} = result.user
+      
+      const res = await axios.post(ServerUrl + "/api/auth/google", {name:displayName, email}, {withCredentials:true})
+      console.log(res.data);
+      navigate("/")
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-emerald-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 py-16 lg:py-24">
@@ -55,7 +76,7 @@ function Login() {
               instant, natural conversations anytime.
             </p>
 
-            <button className="mt-10 h-16 px-8 rounded-2xl bg-gradient-to-r from-purple-500 to-emerald-500 text-white text-lg font-semibold flex items-center gap-4 shadow-[0_20px_80px_rgba(139,92,246,0.25)] hover:scale-[1.02] transition cursor-pointer">
+            <button onClick={handleLogin} className="mt-10 h-16 px-8 rounded-2xl bg-gradient-to-r from-purple-500 to-emerald-500 text-white text-lg font-semibold flex items-center gap-4 shadow-[0_20px_80px_rgba(139,92,246,0.25)] hover:scale-[1.02] transition cursor-pointer">
               <FcGoogle className="text-3xl bg-white rounded-full" />
               Continue with Google
             </button>
@@ -90,8 +111,13 @@ function Login() {
                         <div key= {index} className="flex gap-5 rouded-3xl border border-black/5 bg-[#f8fafc] p-5">
 
                             <div className="min-w-[60px] h-[60px] rounded-2xl bg-gradient-to-r from-purple-500 to-emerald-500 text-white text-2xl flex items-center justify-center shadow-[0_10px_30px_rgba(139,92,246,0.20)]">
-                                <icon/>
+                                {icon}
                             </div>
+                            <div>
+                              <h3 className="text-[#081028] text-lg font-semibold">{title}</h3>
+                              <p className="mt-2 text-sm leading-7 text-[#64748b]">{desc}</p>
+                            </div>
+                
                         </div>
 
                     ))

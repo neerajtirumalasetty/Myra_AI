@@ -4,6 +4,7 @@ import connectDb from "./Configs/ConnectDB.js"
 import authRouter from "./Routes/auth.route.js"
 import cookieParser from "cookie-parser"
 import cors from "cors"
+import userRouter from "./Routes/user.route.js"
 
 
 dotenv.config()
@@ -19,15 +20,14 @@ app.use(cookieParser())
 
 
 
-
 app.get("/",(req,res)=>{
     res.json("Hello, Server here")
 })
 
 app.use("/api/auth", authRouter)
+app.use("/api/user", userRouter)
 
 const PORT = process.env.PORT
-
 app.listen(PORT, ()=>{
     console.log(`Server is running on ${PORT}`);
     connectDb()
