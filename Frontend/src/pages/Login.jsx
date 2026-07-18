@@ -45,7 +45,7 @@ function Login({setUser}) {
       const {displayName, email} = result.user
       
       const res = await axios.post(ServerUrl + "/api/auth/google", {name:displayName, email}, {withCredentials:true})
-      console.log(res.data);
+      setUser(res.data)
       navigate("/")
       
     } catch (error) {

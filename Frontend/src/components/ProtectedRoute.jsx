@@ -1,6 +1,6 @@
 import React from "react";
 
-function ProtectedRoute(user, loading, children) {
+function ProtectedRoute({user, loading, children}) {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f8f8fc]">
