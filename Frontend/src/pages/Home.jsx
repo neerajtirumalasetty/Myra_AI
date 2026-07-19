@@ -2,8 +2,7 @@ import React from 'react'
 
 function Home({user}) {
   return (
-    <div className='text-4xl text-green-500'>
-      {user.name}
+    <div>
     </div>
   )
 }

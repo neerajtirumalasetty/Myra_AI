@@ -13,6 +13,7 @@ import { auth, provider } from "../utils/firebase";
 import axios from "axios"
 import { ServerUrl } from "../App";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function Login({setUser}) {
   const navigate = useNavigate()
@@ -46,10 +47,12 @@ function Login({setUser}) {
       
       const res = await axios.post(ServerUrl + "/api/auth/google", {name:displayName, email}, {withCredentials:true})
       setUser(res.data)
+      toast.success("Login Successfull")
       navigate("/")
       
     } catch (error) {
       console.log(error);
+      toast.error("Login Failed")
       
     }
   }
