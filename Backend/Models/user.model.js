@@ -93,7 +93,7 @@ const userSchema = new mongoose.Schema({
     },
     requestLimit:{
         type:Number,
-        default:200
+        default:250
     },
     proExpiresAt:{
         type:Date,
